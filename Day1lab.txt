@@ -1,0 +1,62 @@
+create table student
+( rollno int,
+name varchar(10),
+grade varchar(1)
+);
+	
+insert into student
+values(1,'Raj','A');
+insert into student
+values(2,'Rohit','B');
+insert into student
+values(3,'Roma','C');
+insert into student
+values(4,'Amit','A');
+
+select * from student;
+
+insert into student(rollno,grade) values(10,'B');
+insert into student(rollno,name) values(11,'Pawan');
+
+describe student;
+
+
+
+
+
+Day1 Assignments
+1.create table book(bookid,bkname,price)
+
+create table book
+( bookid int,
+bkname varchar(10),
+price int
+);
+
+insert into book values(101,'C++',300);
+insert into book values(201,'Linux',400);
+insert into book values(301,'Java',350);
+insert into book values(401,'OS',250);
+insert into book(bookid,bkname) values( 100,'CN');
+
+select * from book;
+
+
+
+2)salesman(id,name,area,totalsale)
+
+create table salesman
+(
+id int,
+name varchar(10),
+area varchar(10),
+totalsale int
+);
+insert into salesman values(111,'Amit','Pune',100);
+insert into salesman values(121,'Pawan','Mumbai',50);
+insert into salesman values(131,'Amar','Pune',60);
+insert into salesman values(141,'Ajit','Satara',80);
+insert into salesman(id,name,area) values( 100,'Naman','Mumbai');;
+
+Select * from salesman;
+

@@ -1,0 +1,357 @@
+1. Consider following tables
+   Faculty  
+   -------
+   fid fname   skills
+   1   Amol    Java
+   2   Soha    Accounts
+   3   Tejas   .NET
+   4   Chandan  C++
+
+create table Faculty
+(
+fid int,
+fname varchar(10),
+skills varchar(10)
+);
+
+insert into Faculty values(1,'Amol','Java');
+insert into Faculty values(2,'Soha','Account');
+insert into Faculty values(3,'Tejas','.Net');
+insert into Faculty values(4,'Chandan','C++');
+
+
+   Course
+   ------
+   cid  name    fid
+    1   DAC      1
+    2   DBDA     2
+    3   DTISS    null
+    4   DVLSI    null
+
+create table Course
+(
+cid int,
+name varchar(10),
+fid int
+);
+
+insert into Course values(1,'DAC',1);
+insert into Course values(2,'DBDA',2);
+insert into Course(cid,name) values(3,'DTISS');
+insert into Course(cid,name) values(4,'DVLSI');
+
+
+
+    1. Find all courses which has no faculty assigned.
+
+ select * from Course where fid is null;
++------+-------+------+
+| cid  | name  | fid  |
++------+-------+------+
+|    3 | DTISS | NULL |
+|    4 | DVLSI | NULL |
++------+-------+------+
+2 rows in set (0.00 sec)
+
+
+    2. Find all faculty to whome course is not assigned.
+
+select f.fname from Faculty f
+    -> where not exists(select * from course c where c.fid=f.fid);
++---------+
+| fname   |
++---------+
+| Tejas   |
+| Chandan |
++---------+
+2 rows in set (0.00 sec)
+
+
+    3. Dispaly fid fname skill and course name.
+
+select f.fid,f.fname,f.skills,c.name
+     from Faculty f
+     left join Course c
+     on f.fid=c.fid;
++------+---------+---------+------+
+| fid  | fname   | skills  | name |
++------+---------+---------+------+
+|    1 | Amol    | Java    | DAC  |
+|    2 | Soha    | Account | DBDA |
+|    3 | Tejas   | .Net    | NULL |
+|    4 | Chandan | C++     | NULL |
++------+---------+---------+------+
+
+
+2. Consider following tables
+    product
+   ---------
+    pid	pname	 qty     cid     sid
+    11  lays     14       1      100
+    12  nachos   12       1      200
+    13  marie    13       2      100
+    14  maggie   20       3      200
+    15  milk     null    null    null
+    16  cadbury  null    null    null
+
+
+create table product
+(
+pid int,
+pname varchar(10),
+qty int,
+cid int,
+sid int
+);
+
+insert into product values(11,'lays',     14   ,    1 ,     100);
+insert into product values( 12 , 'nachos',   12 ,      1 ,     200);
+insert into product values(13,  'marie',    13     ,  2,      100);
+insert into product values(14,  'maggie',   20,       3,      200);
+insert into product (pid,pname)values(15,  'milk');
+insert into product (pid,pname)values(16 , 'cadbury');
+
+ select * from product;
++------+---------+------+------+------+
+| pid  | pname   | qty  | cid  | sid  |
++------+---------+------+------+------+
+|   11 | lays    |   14 |    1 |  100 |
+|   12 | nachos  |   12 |    1 |  200 |
+|   13 | marie   |   13 |    2 |  100 |
+|   14 | maggie  |   20 |    3 |  200 |
+|   15 | milk    | NULL | NULL | NULL |
+|   16 | cadbury | NULL | NULL | NULL |
++------+---------+------+------+------+
+
+   salesman
+   --------
+     sid    sname     addr
+     100    kirti     pune
+     200    mahesh    mumbai
+     300    prachi    nagpur
+
+create table salesman1
+(
+sid int,
+sname varchar(10),
+addr varchar(10)
+);
+
+insert into salesman1 values(100,'kirti','pune');
+
+insert into salesman1 values(200,'mahesh','mumbai');
+
+insert into salesman1 values(300,'prachi','nagpur');
+
+
+     catagory
+     -------
+     cid    cname    
+      1     chips
+      2     biscuit  
+      3     snacks 
+      4     chocolates
+
+create table catagory
+(
+cid int,
+cname varchar(15));
+insert into catagory values(1,'Chips');
+insert into catagory values(2,'biscuit');
+insert into catagory values(3,'snacks');
+insert into catagory values(4,'chocloates');
+
+
+
+
+    1. Dispaly all products along with catagory name
+
+select p.pname,c.cname
+        from product p
+          left join catagory c
+          on c.cid=p.cid ;
++---------+---------+
+| pname   | cname   |
++---------+---------+
+| lays    | Chips   |
+| nachos  | Chips   |
+| marie   | biscuit |
+| maggie  | snacks  |
+| milk    | NULL    |
+| cadbury | NULL    |
++---------+---------+
+
+    2. Display all products who don't have catagory.
+select pname from product where cid is null;
++---------+
+| pname   |
++---------+
+| milk    |
+| cadbury |
++---------+
+
+
+    3. Display salesman who is not selling any product.
+
+select s.sname from Salesman1 s
+    where not exists(select * from product p where p.sid=s.sid);
++--------+
+| sname  |
++--------+
+| prachi |
++--------+
+
+
+
+    4. Display all products with category name and also categories for which no products are available.
+
+
+select p.pname,c.cname
+        from product p
+          right join catagory c
+          on c.cid=p.cid ;
+
+
+--------+------------+
+| pname  | cname      |
++--------+------------+
+| nachos | Chips      |
+| lays   | Chips      |
+| marie  | biscuit    |
+| maggie | snacks     |
+| NULL   | chocloates |
++--------+------------+
+
+3. Write queries based on following tables
+create table Product11(
+   pid int primary key,
+   pname varchar(20),
+   price decimal(6,2) default 20.00,
+   qty int check(qty>0),
+   cid int,
+ foreign key(cid) references category1(cid)
+   on delete set null,
+   sid int ,
+foreign key(sid) references salesman12(sid)
+   on delete no action
+   );
+
+
+ 
+
+
+
+
+
+prodid pname      qty  price   catid  sid
+123    lays        30  30.00    1     12
+111    pepsi       40  50.00    4     11
+134    nachos      50  50.00    1     12
+124    dairy milk  40  60.00    2     14
+124    pringles    40  60.00    1     14
+
+    INSERT into   product11 values(123,'lays',30,30.00,1,12);
+    INSERT into   product11 values(111,'pepsi',40,50.00,4,11);
+    INSERT into   product11 values(134,'nachos',50,50.00,1,12);
+    INSERT into   product11 values(124,'dairy milk',40,60.00,2,14);
+    INSERT into   product11 values(125,'pringles',40,60.00,1,14);
+
+    
+saleman ----- sname -----not null
+sid sname city
+11 Rahul Pune
+12 Kirti Mumbai
+13 Prasad Nashik
+14 Arnav Amaravati
+ 
+    create table salesman12(
+   sid int primary key,
+   sname varchar(15) unique not null,
+   city varchar(15));
+
+    INSERT into   salesman12 values(11,'Rahul','Pune');
+    
+    INSERT into   salesman12 values(12,'Kirti','Mumbai');
+ 
+    INSERT into   salesman12 values(13,'Prasad','Nashik');
+    INSERT into   salesman12 values(14,'Arnav','Amravati');
+  
+category ---- cname unique and not null
+cid cname description
+1 chips very crunchy
+2 chocolate very chocolaty
+3 snacks yummy
+4 cold drinks thanda thanda cool cool
+
+   create table category1(
+   cid int primary key,
+   cname varchar(15) unique not null,
+   description varchar(30));
+
+
+   INSERT into  category1 values(1,'chips','crunchy');
+   INSERT into   category1 values(2,'chocolate','very chocolaty');
+   INSERT into   category1 values(3,'snacks','yummy');
+   INSERT into   category1 values(4,'cold drinks','thanda thanda cool cool');
+
+1. List all products with category chips
+ select * from product11 where cid=(select cid from category1 where cname='chips');
++-----+----------+-------+------+------+------+
+| pid | pname    | price | qty  | cid  | sid  |
++-----+----------+-------+------+------+------+
+| 123 | lays     | 30.00 |   30 |    1 |   12 |
+| 125 | pringles | 40.00 |   60 |    1 |   14 |
+| 134 | nachos   | 50.00 |   50 |    1 |   12 |
++-----+----------+-------+------+------+------+
+ 
+2. display all products sold by kirti
+ select * from product11 where sid=(select sid from salesman12 where sname='kirti');
++-----+--------+-------+------+------+------+
+| pid | pname  | price | qty  | cid  | sid  |
++-----+--------+-------+------+------+------+
+| 123 | lays   | 30.00 |   30 |    1 |   12 |
+| 134 | nachos | 50.00 |   50 |    1 |   12 |
++-----+--------+-------+------+------+------+
+
+3. display all salesman who has not sold any product
+
+select s.sname
+     from salesman12 s where not exists(select * from product11 p where p.sid=s.sid);
++--------+
+| sname  |
++--------+
+| Prasad |
++--------+
+
+
+
+4. display all category for which no product is assigned
+
+
+select c.cname from category1 c where not exists(select * from product11 p where p.cid=c.cid);
++--------+
+| cname  |
++--------+
+| snacks |
++--------+
+
+5. display all products with no category assigned
+
+select * from product11  p where not exists(select * from category1 c where c.cid=p.cid);
+Empty set
+
+6. list all salesman who stays in city with name starts with P or N
+
+select * from salesman12 where city like 'P%' or city like 'N%';
++-----+--------+--------+
+| sid | sname  | city   |
++-----+--------+--------+
+|  11 | Rahul  | Pune   |
+|  13 | Prasad | Nashik |
++-----+--------+--------+
+
+7. add new column in salesman table by name credit limit
+
+
+
+alter table salesman11 add credit_limit int default 200000 ;

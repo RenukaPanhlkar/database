@@ -1,0 +1,136 @@
+dept12(dno pk,dname)
+emp12(eno pk,ename,dno fk)
+
+On delete cascade
+-------------------
+create table dept12
+(
+  dno int,
+  dname varchar(10),
+  primary key(dno)
+);
+
+insert into dept12
+values(10,'MKT');
+insert into dept12
+values(20,'R&D');
+insert into dept12
+values(30,'SALES');
+insert into dept12
+values(40,'PURCHASE');
+insert into dept12
+values(50,'TEC');
+insert into dept12
+values(60,'ACC');
+
+create table emp22
+(
+  eno int,
+  ename varchar(10),
+  dno int,
+  primary key(eno),
+  foreign key (dno) references dept12(dno) on delete cascade
+);
+
+insert into emp22
+values(100,'Sameer',10);
+insert into emp22
+values(101,'Ramesh',10);
+insert into emp22
+values(103,'Sailesh',20);
+insert into emp22
+values(104,'Payal',20);
+insert into emp22
+values(105,'Tanvi',30);
+insert into emp22
+values(106,'Amit',40);
+
+delete
+from dept12
+where dno=10;
+
+----------------------
+on delete set null
+
+create table emp23
+(
+  eno int,
+  ename varchar(10),
+  dno int,
+  primary key(eno),
+  foreign key (dno) references dept12(dno) on delete set null
+);
+
+insert into emp23
+values(100,'Sameer',20);
+insert into emp23
+values(101,'Ramesh',30);
+insert into emp23
+values(103,'Sailesh',20);
+insert into emp23
+values(104,'Payal',20);
+insert into emp23
+values(105,'Tanvi',30);
+insert into emp23
+values(106,'Amit',40);
+
+delete
+from dept12
+where dno=10;
+
+-------
+
+self join
+
+select e.empno,e.ename,e.mgr,m.empno,m.ename
+from emp e
+join emp m
+on e.mgr=m.empno;
+
+
+select e.empno , e.ename,e.mgr,m.empno,m.ename
+from emp e, emp m
+where e.mgr=m.empno;
+-----------------------------
+
+inner join
+
+select e.empno,e.ename,e.sal,s.grade
+from emp e
+inner join salgrade s
+on e.sal between s.losal and s.hisal;
+
+------------------------------------------
+
+outer right join
+
+select e.ename,e.deptno,d.deptno,d.dname
+from emp e
+right join dept d
+on e.deptno=d.deptno;
+
+-----------------------------------
+left outer join
+
+select e.ename,e.deptno,d.deptno,d.dname
+from emp e
+left join dept d
+on e.deptno=d.deptno;
+
+
+insert into emp(empno,ename,deptno)
+values(1111,'dfdsfd',100);
+
+--------------------------
+full join
+
+select e.ename,e.deptno,d.deptno,d.dname
+from emp e
+right join dept d
+on e.deptno=d.deptno
+union
+select e.ename,e.deptno,d.deptno,d.dname
+from emp e
+left join dept d
+on e.deptno=d.deptno;
+

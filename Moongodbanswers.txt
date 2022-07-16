@@ -1,0 +1,78 @@
+1. list all movies with rating <4
+{rating:{$lt:4}}
+db.movie.find({rating:{$lt:4}}).pretty()
+
+-----list all the movies with rating < 4 and price > 250
+rating:{$lt:4}
+price:{$gt:250}
+db.movie.find({rating:{$lt:4},price:{$gt:250}})
+----list all movies with ticket_no=200
+db.movie.find({ticket_no:200})
+
+-----list all movies with ticket_no>100 and price=300
+ticket_no:{$gt:100}
+price:300
+db.movie.find({ticket_no:{$gt:100},price:300})
+
+--------list all movies with ticket_no>100 and price=300
+ticket_no:{$gt:100}
+price:300
+$or:[{ticket_no:{$gt:100}},{price:300}]
+db.movie.find({$or:[{ticket_no:{$gt:100}},{price:300}]}).pretty()
+
+
+------------list all name,rating,price with ticket_no>100 or price=300
+db.movie.find({$or:[{ticket_num:{$gt:100}},{price:300}]},{_id:0,name:1,rating:1,price:1}).pretty()
+
+-display all movie names for all movies with rating >3 and ticket_num>200
+rating:{$gt:3}
+ticket_num:{$gt:200}
+db.movie.find({rating:{$gt:3},ticket_num:{$gt:200}},{name:1,_id:0})
+
+------list all movies with price =200 or 250 or 300
+price:{$in:[200,250,300]}
+db.movie.find({price:{$in:[200,250,300]}},{name:1,price:1,_id:0})
+
+----------list all movies with price =200 or 250 or 300 and rating>3
+price:{$in:[200,250,300]}
+rating:{$gt:3}
+db.movie.find({price:{$in:[200,250,300]},rating:{$gt:3}},{name:1,rating:1,price:1,_id:0})
+
+----------list all moviename,rating,price with price =200 or 250 or 300 or rating>3
+price:{$in:[200,250,300]}
+rating:{$gt:3}
+$or:[{price:{$in:[200,250,300]}},{rating:{$gt:3}}]
+
+db.movie.find({$or:[{price:{$in:[200,250,300]}},{rating:{$gt:3}}]},{name:1,rating:1,price:1,_id:0})
+
+------list all movies for which no rating assigned
+
+rating:null
+
+
+
+db.movie.find({rating:{$in:[null],$exists:true}},{name:1,rating:1})
+
+----to list all movies which do not have rating key
+db.movie.find({rating:{$exists:false}},{name:1,rating:1})
+
+-----list all the movies with even rating
+rating:{$mod:[2,0]}
+db.movie.find({rating:{$mod:[2,0]}},{name:1,rating:1,price:1,_id:0})
+
+------list all movies in which amithabh has acted
+db.movie.find({actors:'Amithabh'},{name:1,actors:1})
+
+-----list all movies in which there are actors whose name starts with A
+db.movie.find({actor:/^[Aa]/},{name:1,actor:1})
+
+---list all movies with name ending with t
+db.movie.find({name:/t$/},{name:1,rating:1,_id:0})
+
+-----list all movies with name ends with digits
+db.movie.find({name:/[0-9]$/},{name:1,rating:1,_id:0})
+
+-----list all movies with name ending with t
+db.movie.find({name:/t$/},{name:1,rating:1,_id:0})
+
+

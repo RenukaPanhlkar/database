@@ -1,0 +1,45 @@
+1.select cname 
+  from course c
+  where not exists (select * 
+                    from room r 
+                    where c.rid = r.rid )
+  union
+  select rname 
+  from room p 
+  where not exists (select * 
+                    from course k 
+                    where k.rid = p.rid );
+
+2.select fid,fname,rname,rid
+  from faculty f 
+  left join course c 
+  on f.cid=c.cid 
+  union
+  select fid,fname,rname,rid
+  from faculty f 
+  right join course c 
+  on f.cid=c.cid 
+
+3.select rid,rname,cid,cname
+  from room r
+  left join course c on r.cid=c.cid;
+
+
+4.select rid,rname
+  from room
+  where not exists (select *
+   from course
+  where c.rid=r.rid);
+
+5.select *
+form courses c
+inner join faculty f 
+on c.fid=f.fid
+where spskill1='database' or spskill2='database';
+
+6.select cid,cname ,rid,rname,fid,fname
+from room r 
+inner join course c 
+on c.rid=r.rid 
+inner join faculty f 
+on c.fid=f.fid;

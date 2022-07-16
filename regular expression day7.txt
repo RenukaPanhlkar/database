@@ -1,0 +1,64 @@
+Regular Expression
+___________________
+
+pattern matching. 
+
+[abc] a or b or c
+[^abc]  not a or b or c
+^[abc] starting with a or b or c
+$ end of string
+. represents character
+
+Quantifiers
+------------
+[]? occurs 0 or 1 times
+[]+ occurs 1 or more times  
+[]* 0 or more times
+[]{n} n timesselect * 
+from emp 
+where ename REGEXP '^.I.*R$';
+[]{n,} n or more times
+[]{n,m} min n times max m times
+
+REGEXP :: operator by mysql
+
+--Name starting with A or M
+select * 
+from emp 
+where ename REGEXP '^[AM]';
+
+--Name starts with M and ends with N or R
+select * 
+from emp 
+where ename REGEXP '^m.*[nr]$';  
+
+ename=MN
+      MR
+      MAYUR
+   
+--Name does not start with A or M
+select * 
+from emp 
+where ename REGEXP '^[^AM]';
+
+--All employes having I at the second position, E at last position
+select * 
+from emp 
+where ename REGEXP '^.I.*E$';
+
+--find all employees with names containing exactly 5 characters
+select * 
+from emp 
+where ename REGEXP '^.{5}$';
+
+--ename whose job ends with RK or AN
+select ename,job
+from emp 
+where job REGEXP 'RK$|AN$';
+
+--Display the details of the employee , whose names start with ‘A’ and end with ‘S’ or whose names contains N as the second or third character, and ending with either ‘N’    or ‘S’.
+
+select ename,job
+from emp 
+where ename REGEXP '^A.*S$|.N.*[NS]$|..N.*[NS]$';
+

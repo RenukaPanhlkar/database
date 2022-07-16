@@ -1,0 +1,79 @@
+1. 
+     1.select * 
+       from courses
+       where fid is null; 
+
+     2. select *
+        from faculty
+        where not exists(select *
+                         from course c
+                         where c,fid=f.fid);
+
+     3. select f.fid,f.fname,f.skill,c.name
+        from faculty f, course c
+        where f.fid=c.fid;
+      
+2.
+   1. select p.pid, p.pname, p.cid, c.cname
+      from product p
+      inner join
+      catagory c on
+      p.cid=c,cid;
+
+   2. select pname 
+      from product 
+      where cid=null;
+
+   3. select sid,sname
+      from salesman s
+      where not exists(select *  
+                       from product p
+                       where p.sid=s.sid);
+   
+   4. select *
+      from product p 
+      right join catagory c on
+      p.cid=c.cid
+      order by pname;
+
+3.
+  1.select *
+from product p inner join category c on p.cid=c.cid
+where cname='chips';
+----------------------
+
+2.select *
+from product p inner join salesman s on p.sid=s.sid
+where sname='kirti';
+------------------------------
+
+3.select sid,sname
+from salesman s
+where not exists (select * from product
+where p.sid=s.sid );
+------------------------------
+4. select cid,cname
+from category c
+where not exists (select * from product
+where p.cid=c.cid );
+------------------------------
+
+5. select *
+from product
+where cid is null;
+------------------------------
+
+6.select *
+from salesman
+where address REGEXP('^[PN]');
+
+
+7.alter table salesman
+add creadit_limit int(9,2);
+-----------------------------
+
+      
+
+
+ 
+    

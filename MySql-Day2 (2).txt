@@ -1,0 +1,32 @@
+select ename, sal+comm 
+from emp;
+
+select ename Name,sal salary,comm commission
+from emp;
+
+select ename Name,sal*12 "annual salary"
+from emp;
+
+update student
+set grade='B'
+where roll=4;
+
+update student
+set name='Babita'
+where roll=5;
+
+delete
+from student
+where name='Babita';
+
+alter table student
+add column marks int;
+
+insert into student
+values(5,'Seema','C',89);
+
+alter table student
+drop column marks ;
+
+alter table student
+modify column roll varchar(5) ;

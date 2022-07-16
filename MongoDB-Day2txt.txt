@@ -1,0 +1,31 @@
+how to import movie.json
+1.
+open cmd start server>mongod
+2.open cmd on bin start client
+>mongo
+3.open one more cmd on bin
+give the following command
+
+>mongoimport --db test --collection movie --file C:\Users\cheta\Downloads\movie.json
+2022-06-01T16:06:50.413+0530    connected to: localhost
+2022-06-01T16:06:50.430+0530    imported 18 documents
+
+
+4.go to client and chk the commands
+>show collections;
+
+5.display movie with rating =3
+db.movie.find({rating:3});
+
+6.display movie with rating=3 and projection price
+db.movie.find({rating:3},{price:1});
+{ "_id" : ObjectId("5aaa31ee639395f86922a87f"), "price" : 200 }
+{ "_id" : ObjectId("5aaa3334639395f86922a882"), "price" : 260 }
+{ "_id" : ObjectId("5c865923d82c19b8ed996550"), "price" : 340 }
+
+
+
+
+not working//db.movie.find({rating:3,price:250});
+
+

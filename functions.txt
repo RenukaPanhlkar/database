@@ -1,0 +1,28 @@
+delimiter &&
+create function calexp(hdate date) returns int
+     deterministic
+     begin
+     declare vexp int;
+     set vexp=floor(datediff(curdate(),hdate)/365);
+     return vexp;
+     end &&
+mysql> delimiter ;
+mysql> select empno,ename,hiredate,calexp(hiredate) from emp;
++-------+--------+------------+------------------+
+| empno | ename  | hiredate   | calexp(hiredate) |
++-------+--------+------------+------------------+
+|  7369 | SMITH  | 1980-12-17 |               41 |
+|  7499 | ALLEN  | 1981-02-20 |               41 |
+|  7521 | WARD   | 1981-02-22 |               41 |
+|  7566 | JONES  | 1981-04-02 |               41 |
+|  7654 | MARTIN | 1981-09-28 |               40 |
+|  7698 | BLAKE  | 1981-05-01 |               41 |
+|  7782 | CLARK  | 1981-06-09 |               41 |
+|  7788 | SCOTT  | 1982-12-09 |               39 |
+|  7839 | KING   | 1981-11-17 |               40 |
+|  7844 | TURNER | 1981-09-08 |               40 |
+|  7876 | ADAMS  | 1983-01-12 |               39 |
+|  7900 | JAMES  | 1981-12-03 |               40 |
+|  7902 | FORD   | 1981-12-03 |               40 |
+|  7934 | MILLER | 1982-01-23 |               40 |
++-------+--------+------------+------------------+

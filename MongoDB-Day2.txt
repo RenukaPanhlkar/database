@@ -1,0 +1,52 @@
+--display all movie with rating 3
+db.movie.find({rating:3});
+
+--display all movie with rating 3 and price 250
+db.movie.find({rating:3,price:260});
+
+--display all movie with rating > 3 and price 250
+db.movie.find({rating:{$gte:3},price:260});
+
+--find wuthout query and with projection
+db.movie.find({},{rating:1,name:1,actor:1,_id:0});
+
+--in operator
+db.movie.find({price:{$in:[550,260,340,]}});
+
+--or operator
+db.movie.find({$or:[{rating:3},{price:340}]},{_id:0});
+
+--update
+db.movie.update({name:'Andhadhund'},{$set:{rating:5},$inc:{price:20}},{multi:true});
+db.movie.update({name:'Andhadhund'},{$inc:{price:-20}},{multi:true});
+
+db.movie.update({name:'Andhadhund'},{$set:{rating:8}},{multi:true});
+
+db.movie.find({rating:{$gte}:3,price:250});
+
+db.movie.find({price:{$gt:200,$lt:400}});
+
+
+--delete a key-value pair from the document
+db.movie.update({name:'Andhadhund'},{$unset:{actor:' '}});
+
+db.movie.update({name:'kahani 2'},{$unset:{ticket_no:' '}});
+
+--delete document
+db.movie.remove({name:'kahani 2'});
+
+delete 
+from movie 
+where name="kahani 2";
+
+ 
+
+
+
+
+
+
+
+
+
+

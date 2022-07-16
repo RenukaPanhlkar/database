@@ -1,0 +1,105 @@
+show the data bases
+>show dbs;
+
+admin  0.000GB
+local  0.000GB
+
+
+Show current database
+>db;
+test
+
+
+
+create empty collection
+>db.createCollection("MyCollection");
+
+inserting data
+db.MyCollection.insert({pid:1,pname:'Soap',price:45,qty:120});
+db.MyCollection.insert({pid:2,pname:'Shampoo'});
+db.MyCollection.insert({pid:3,pname:'ToothBrush',price:45,qty:130,mfg:{'Colgate','Pepsodent'}});
+db.MyCollection.insert({pid:4,pname:'AAAAA',price:45,qty:130,mfg:['Colgate','Pesodent']});
+db.MyCollection.insert({pid:4,pname:'AAAAA',price:45,qty:130,mfg:{mfg1:'Colgate',mfg2:'Pesodent'}});
+
+ 
+find
+-------------------------------------------------------
+db.MyCollection.find();
+
+pretty
+---------------------------------------------------------------
+db.MyCollection.find().pretty();
+
+
+{
+        "_id" : ObjectId("6295e34823f06eb9003a6f82"),
+        "pid" : 1,
+        "pname" : "Soap",
+        "price" : 45,
+        "qty" : 120
+}
+{
+        "_id" : ObjectId("6295e36223f06eb9003a6f83"),
+        "pid" : 2,
+        "pname" : "Shampoo"
+}
+{
+        "_id" : ObjectId("6295e36223f06eb9003a6f84"),
+        "pid" : 4,
+        "pname" : "AAAAA",
+        "price" : 45,
+        "qty" : 130,
+        "mfg" : [
+                "Colgate",
+                "Pesodent"
+        ]
+}
+{
+        "_id" : ObjectId("6295e37523f06eb9003a6f85"),
+        "pid" : 4,
+        "pname" : "AAAAA",
+        "price" : 45,
+        "qty" : 130,
+        "mfg" : {
+                "mfg1" : "Colgate",
+                "mfg2" : "Pesodent"
+        }
+}
+
+find and projection
+-------------------------------------------------------------
+db.MyCollection.find({query},{projection});
+db.MyCollection.find({pname:'AAAAA'},{pname:1,_id:0,price:1,qty:1,mfg:1});
+
+
+{ "pname" : "AAAAA", "price" : 45, "qty" : 130, "mfg" : [ "Colgate", "Pesodent" ] }
+{ "pname" : "AAAAA", "price" : 45, "qty" : 130, "mfg" : { "mfg1" : "Colgate", "mfg2" : "Pesodent" } }
+
+
+
+Emp collection----------
+db.createCollection("emp");
+Insert values in collection
+db.emp.insert({eno:1,ename:'Anagha',ejob:'programmer',dept:{dno:10,dname:'tech',loc:'mumbai'},exp:{name:'java',year:10}});
+db.emp.insert({eno:2,ename:'Ashok',edegree:'BE'});
+db.emp.insert({eno:3,ename:'Allen',ehdate:ISODate("2020-10-11")});
+
+
+To display
+---------------------------
+db.emp.find();
+db.emp.find().pretty();
+
+
+to display with projection
+----------------------------------------
+db.emp.find({ename:'Anagha'},{ eno:1,ename:1,ejob:1,_id:0});
+
+{"eno" : 1, "ename" : "Anagha", "ejob" : "programmer" }
+
+
+
+
+
+
+

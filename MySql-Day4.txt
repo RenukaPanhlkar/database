@@ -1,0 +1,199 @@
+55
+123.467
+ 
+num float(6,3)
+
+67234.145
+
+num float(8,3)
+
+InBuilt functions in Mysql
+______________________________
+
+1. Single line function
+2. Group functions(Aggregate function)
+
+string functions
+-----------------
+1. length
+ select ename name,length(ename) from emp;
+
+2. lower
+  select ename,lower(ename) from emp;
+
+3. upper
+   select upper(name) from movie;
+
+4. ASCII
+   select ASCII(name) from movie;
+
+5. concat(str1,str2,str3....)
+   select ename,job,concat(ename,job) from emp;
+   select concat(ename,',',job) from emp;
+   select concat(ename,'--',job) from emp;
+   select concat(ename,'@knowit.com');
+   select concat(lower(ename),'@knowit.com');
+
+6. substr(str,m,n)
+   select ename,substr(ename,2,3) from emp;
+
+7. concat_ws('::',fname,lname)
+
+   select concat_ws('::',fname,lname)
+   from student;
+
+8. format (thousand seperator)
+   select format(sal,2) from emp; 
+
+9. reverse
+   select ename,reverse(ename) from emp;
+
+10. lpad
+    select lpad(fname,10,'*') from student;
+
+11. rpad
+    select rpad(fname,10,'*') from student;
+
+12. ltrim
+    select ltrim(fname) from student;
+
+13. rtrim
+    select rtrim(fname) from student;
+
+14. trim
+    select trim(fname) from student;
+
+--------------------------------------------------
+1. round
+   select round(percentage) from student;
+2. truncat
+   select truncate(percentage,1) from student;
+3. ceil
+   select ceil(percentage) from student;
+4. floor
+   select floor(percentage) from student;
+---------------------------------------------
+date
+
+1. now
+   select now();
+2. currdate
+   select curdate();
+3. sysdate()
+   select sysdate();
+4. date_format
+   select date_format(curdate(),'%d/%m/%y');
+   select date_format(curdate(),'%D/%m/%y');
+5. datediff('2015-11-14','2014-11-14')
+   select datediff('2015-11-14','2014-11-14') days ;
+
+   select datediff(curdate(),hiredate)/365 from emp;
+
+
+create table movie   
+(
+  name varchar(20),
+  rating decimal(3,1) 
+);
+
+create table student
+(
+fname varchar(10),
+lname varchar(10),
+percentage decimal(5,2)
+);
+
+insert into student
+values('varun','varma',89.45);
+insert into student
+values('tarun','sharma',99.45);
+insert into student
+values('arun','saha',69.45);
+insert into student
+values('   Soha','   mmm',69.45);
+insert into student
+values('AAA','BBB',69.51);
+insert into student
+values('sss','PPP',69.40);
+insert into student
+values('KKK','UUU',69.50);
+
+
+
+mailid = first 2 letter of fname + 1 char of lname+@knowit.com
+
+select fname,lname,concat(substr(fname,1,2),substr(lname,1,1),'@knowit.com') mailid
+from student;
+
+
+insert into movie
+values('Dharmaveer',7.1);
+insert into movie
+values('Pusha',10);
+insert into movie
+values('kgf',10);
+
+A = 65, B= 66......
+a = 97     
+
+ 
+_____________________________________________
+
+--display salary and emp name where salary is between
+  2000 and 5000
+
+select ename,sal 
+from emp
+where sal between 2000 and 5000;
+
+not operator
+
+select ename,sal 
+from emp
+where sal not between 2000 and 5000;
+
+
+--display dname which are not of dno 20 and 30
+
+select dname 
+from dept
+where deptno not in(20,30);
+
+____________________________________________________
+
+ distinct clause
+ supress duplicate entries
+
+ select distinct deptno from emp;
+-------------------------------------------
+
+sort
+
+select ename,deptno
+from emp
+order by deptno,ename;
+
+lname,fname
+ccccc kkkk
+varun sharma
+varun kkk
+
+select ename,deptno
+from emp
+order by deptno,ename desc;
+
+
+select ename,deptno
+from emp
+order by deptno desc,ename;
+
+name baranch
+
+aaa  cilvil
+bbb   CS
+      IT
+      Mec
+      Mtec
+      CS
+       MTEC
+     IT

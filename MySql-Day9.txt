@@ -1,0 +1,42 @@
+
+
+---------------------------------------
+create table course_audit
+ (
+   old_cid int,
+   new_cid int,
+   changedt date,
+   user1 varchar(20),
+   action varchar(10),
+   old_fid int,
+   new_fid int 
+ );
+
+delimiter &&
+create trigger upd_course after update on course01
+for each row
+begin
+  insert into course_audit values(OLD.cid,NEW.cid,curdate(),user(),'update',OLD.fid,NEW.fid);
+
+end &&
+
+update course01
+set fid=10
+where fid=1;
+
+update course01
+set fid=20
+where fid=2;
+____________________________________
+for insert--
+delimiter &&
+create trigger inst_course after insert on course01
+for each row
+begin
+ insert into course_audit values(null,NEW.cid,curdate(),user(),'insert',null,NEW.fid);
+
+end &&
+
+insert into course01
+values(7,'PRE-DAC',30);
+----------------------------------

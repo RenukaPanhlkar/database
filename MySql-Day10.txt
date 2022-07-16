@@ -1,0 +1,55 @@
+function                     procedure
+------------		    ------------	
+block of code              block of code  
+returns a value            cannot return a value
+return reserved wd         out parameter
+select clause              call 
+
+
+
+
+create  function 
+        index
+	views
+	procedures
+	triggers
+	tables
+        cursors
+
+floor(datediff(curdate(),hiredate)/365)
+
+syntax
+
+create function fun_name(para1 dadatype,para2 datatype...) return datatype deterministic
+ begin
+ ens &&
+
+--function to calculate experience of employee
+
+delimiter &&
+create function cal_exp(hdate date) returns int deterministic
+ begin
+    declare vexp int;
+    set vexp=floor(datediff(curdate(),hdate)/365);
+    return vexp;
+ end &&
+
+delimiter ;
+
+
+select empno,ename,hiredate,cal_exp(hiredate)
+from emp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+	

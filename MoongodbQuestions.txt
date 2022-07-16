@@ -1,0 +1,37 @@
+1. list all movies with rating <4
+db.movie.find({rating:{$lt:4}});
+
+
+2. list all the movies with rating < 4 and price > 250
+
+db.movie.find({$or:[{rating:{$lt:4}},{price:{$gt:250}}]}).pretty();
+
+3. list all movies with ticket_no=200
+
+db.movie.find({ticket_no:200}).pretty();
+
+4. list all movies with ticket_no>100 and price=300
+db.movie.find({ticket_no:{$gt:100},price:300}).pretty();
+
+
+5. display all moviname for all movies with rating >3 and ticket_num>200
+db.movie.find({rating:{$gt:3},ticket_no:{$gt:200}});
+
+
+6. list all movies with price =200 or 250 or 300
+db.movie.find({price:{$in:[200,250,300]}});
+
+7. list all moviename,rating,price with price =200 or 250 or 300 or
+ rating>3
+db.movie.find({$or:[{price:200},{price:250},{price:300},{rating:{$gt:3}}]}).pretty();;
+
+
+8. list all movies for which no rating assigned
+9. to list all movies which do not have rating key
+10.list all the movies with even rating
+11. list all movies in which amithabh has acted
+12.list all movies in which there are actors whose name starts with A
+13 list all movies with name ending with t
+14.list all movies with name ends with digits
+15. Print number of count from movie collection.
+

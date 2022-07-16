@@ -1,0 +1,131 @@
+
+1. Write stored procedure which will display employee from Dept 10 and 20.
+DELIMITER &&  
+CREATE PROCEDURE get_emp_1020 ()  
+BEGIN  
+    SELECT * FROM emp WHERE deptno in (10,20);  
+END &&  
+DELIMITER ;  
+
+call Stored Proc
+call get_emp_1020()
+
+
+
+2. Write stored procedure which will accept Dept no as input parameter and display all employees working in given department.
+
+DELIMITER &&  
+CREATE PROCEDURE get_EmpFromDept(IN deptnum int)  
+BEGIN  
+    SELECT * FROM emp where deptno= deptnum;  
+    
+END &&  
+DELIMITER ;  
+
+
+CALL get_EmpFromDept(20);  
+
+
+
+3. Write stored procedure which will accept salary range as input and return no of  employees as out parameter between the salary range.
+
+DELIMITER &&  
+CREATE PROCEDURE display_sal_Emp (IN sal_l decimal(10,2),IN sal_h decimal(10,2),OUT nemp INT)  
+BEGIN  
+    SELECT count(*) INTO nemp FROM emp where sal between sal_l and sal_h;   
+END &&  
+DELIMITER ;  
+
+
+mysql> CALL display_sal_Emp(1000,2000,@M);  
+mysql> SELECT @M;  
+
+
+4. write a procedure to insert record into employee table.
+the procedure should accept empno, ename, sal, job, hiredate as input parameter
+write insert statement inside procedure insert_rec to add one record into table
+
+delimiter //
+drop procedure if exists InsertEmp//
+
+create procedure InsertEmp(pno int,pname varchar(20),psal decimal(7,2),pjob varchar(20),phiredate date)
+begin
+	insert into emp(empno,ename,sal,job,hiredate) values(pno,pname,psal,pjob,phiredate);
+end //
+delimiter ;
+
+Call InsertEmp(102,'Seeta',30000,'MANAGER','2021-01-01');
+
+5. write a procedure to delete record from employee table.
+the procedure should accept empno as input parameter.
+write delete statement inside procedure delete_emp to delete one record from emp 
+table
+delimiter //
+drop procedure if exists deleteEmp//
+
+create procedure deleteEmp(empno1 int)
+     begin
+        delete 
+        from emp
+        where empno=empno1;
+     end//
+
+delimiter ;
+call deleteEmp(102);
+
+
+
+6. write a procedure to find min,max,avg of salary and number of employees in the 
+given deptno.
+deptno --→ in parameter 
+min,max,avg and count ---→ out type parameter
+execute procedure and then display values min,max,avg and count
+
+DROP PROCEDURE IF EXISTS salcal;
+DELIMITER //
+CREATE PROCEDURE salcal(in pdeptno int,out pmax decimal(9,2) ,out pmin decimal(9,2),out pavg decimal(9,2),out pcount decimal(9,2))
+BEGIN
+
+SELECT MAX(sal),MIN(sal),AVG(sal),COUNT(*) INTO pmax,pmin,pavg,pcount
+FROM emp
+WHERE deptno=pdeptno;
+END //
+DELIMITER ;
+call salcal(20,@pmax,@pmin,@pavg,@pcount);
+SELECT @pmax,@pmin,@pavg,@pcount;
+
+
+
+
+
+Views:
+1. Create a view called EMPLOYEES_VU based on the employee numbers, employee names, and  department numbers and department name from the EMPLOYEES table and Dept Table. Display the contents of the EMPLOYEES_VU view.
+CREATE OR REPLACE VIEW employees_vu AS
+        SELECT e.empno, e.ename , e.deptno ,d.dname from emp e inner join dept d on e.deptno = d.deptno;
+        
+select * from employees_vu;
+
+
+2.Using your EMPLOYEES_VU view, enter a query to display all employee names and department  names.
+
+SELECT ename, dname
+        FROM employees_vu;
+
+
+3.Create a view named DEPT50 that contains the employee numbers, employee names, and  department numbers for all employees in department 50. Label the view columns EMPLOYEENO, EMPLOYEE, and DEPARTMENTNO. 
+
+CREATE VIEW dept50 AS
+        SELECT empno as EMPLOYEENO, ename as EMPLOYEE,
+         deptno as DEPARTMENTNO
+        FROM emp
+        WHERE deptno = 50;
+
+4.Create a View that will display employees having salary greater than avarage salary of all employees. 
+
+
+CREATE VIEW EmpAboveAverageSal AS
+SELECT empno, ename,sal
+FROM emp
+WHERE sal > (SELECT AVG(sal) FROM emp);
+
+ select * from EmpAboveAverageSal;

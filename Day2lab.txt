@@ -1,0 +1,84 @@
+1)
+
+create table Vehicle
+( vid int,
+Vname varchar(10) not null,
+Price int not null,
+Details varchar(20),
+primary key(Vid)
+);
+
+
+insert into  Vehicle values(1,'Activa',80000,'Two wheeler');
+insert into  Vehicle values(2,'Santro',800000,'Product of Hundai');
+insert into  Vehicle values(3,"Motor bike",100000,"Sturdy and good milage");
+insert into  Vehicle values(3,"Car",200000,"Good milage");Not allowed
+
+
+2)
+create table Customer
+(
+Custid int,
+Cname varchar(10) not null,
+Address varchar(15) default 'Nagpur',
+primary key(Custid)
+);
+insert into customer values(1,'Nilima','Pimpari');
+insert into customer values(2,'Ganesh','Pune');
+insert into customer values(3,'Pankaj','Mumbai');
+insert into customer(Custid,Cname) values(4,'Neha');
+insert into customer(Custid) values(4);//not allowed
+
+
+
+3)
+create table Salesman1
+(
+Sid int,
+Sname varchar(10) not null,
+Address varchar(15) default 'Delhi',
+primary key(Sid)
+);
+
+insert into salesman1 values(10,'Rajesh','mumbai');
+insert into salesman1 values(11,'Seema','Pune');
+insert into salesman1 values(13,'Rakhi','Pune');
+
+
+
+4)
+create table custvehicle
+(
+custid int,
+vid int,
+Sid int,
+buy_price int,
+foreign key(custid) references customer(custid),
+foreign key(vid) references Vehicle(vid),
+foreign key(Sid) references salesman1(Sid)
+);
+
+insert into custvehicle values(1,1,10,75000);
+insert into custvehicle values(1,2,10,790000);
+insert into custvehicle values(2,3,11,80000);
+insert into custvehicle values(3,3,11,75000);
+insert into custvehicle values(3,2,10,800000);
+
+
+
+1)select sname from  salesman1 where Address='Pune';
+2)delete from custvehicle where custid=1;
+delete from customer where Address='Pimpari';
+3)Select * from Vehicle where Vname='Motorbike';
+4)update custvehicle set buyingprice=80000 where buyingprice=75000;
+5)alter table custvehicle add rating int;
+6)update custvehicle set rating=5 where buy_price>90000;
+7)delete from custvehicle where custid=2;
+delete from custvehicle where custid=3;
+delete form customer;
+or
+truncate table customer;
+8)drop table custvehicle;
+drop table salesman1;
+
+8)drop salesman1;

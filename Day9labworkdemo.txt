@@ -1,0 +1,157 @@
+create a procedure remark which gives remark as follows
+if comm<300 then 'need improvment'
+if comm>=300 and <500 then 'ok'
+if comm>=5000 and <1000 then 'good' otherwise 'Excellent'
+
+
+
+delimiter &&
+create procedure remark(in vempno int,out msg varchar(25))
+begin
+declare vcomm decimal(7,2) default 0;
+select ifnull(comm ,0) into vcomm
+from emp
+where empno=vempno;
+if (vcomm<300) 
+then set msg='need improvment';
+ elseif(vcomm>=300 and vcomm<500)
+ then set msg='ok';
+elseif(vcomm>=500 and vcomm<1000 )
+then set msg='good';
+else
+set msg='Excellent';
+end if;
+select msg;
+end &&
+delimiter ;
+
+call remark(7654,@m);
++-----------+
+| msg       |
++-----------+
+| Excellent |
++-----------+
+
+how to delete procedure
+--------------------------------
+drop procedure remark;
+
+how to show the procedure 
+-------------------------------------------------
+show procedure status where db='knowitdb';
+
+Write a cursor for the following output smith->clerk,allen-->analyst
+================================================================================
+delimiter &&
+create procedure generateListCursor()
+begin
+  declare vjob varchar(9);
+  declare vname varchar(10);
+  declare str varchar(300) default '';
+  declare vstop int default 0;
+  declare emp_cur cursor
+  for select ename,job
+  from emp10;
+  declare continue handler for
+  NOT FOUND set vstop=1;
+  open emp_cur;
+lable1 :loop
+  fetch emp_cur into vname,vjob;
+  if vstop=1 then
+     leave lable1;
+  end if;
+  set str=concat(str,vname,'-->',vjob,',');
+ end loop;
+close emp_cur;
+select str;
+end &&
+delimiter ;
+call generateListCursor();
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| str                                                                                                                                                                                                                               |
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| SMITH-->sr.clerk,ALLEN-->SALESMAN,WARD-->SALESMAN,JONES-->MANAGER,MARTIN-->SALESMAN,BLAKE-->MANAGER,CLARK-->MANAGER,SCOTT-->ANALYST,KING-->PRESIDENT,TURNER-->SALESMAN,ADAMS-->CLERK,JAMES-->CLERK,FORD-->ANALYST,MILLER-->CLERK, |
+
+Loops in procedure
+==============================================
+delimiter &&
+create procedure test_loop(inout pnum int)
+begin
+declare cnt int default 1;
+declare inc int default 1;
+declare str varchar(25) default '';
+label1:loop
+if cnt>5 then
+leave label1;
+end if;
+set str=concat(str,pnum,',');
+set cnt=cnt+1;
+set pnum=pnum+inc;
+set inc=inc+1;
+end loop;
+select str,pnum;
+end &&
+delimiter ;
+
+set @m=5;
+call test_loop(@m);
++--------------+------+
+| str          | pnum |
++--------------+------+
+| 5,6,8,11,15, |   20 |
++--------------+------+
+1 row in set (0.00 sec)
+
+
+Triggers
+=========================================================
+
+create table course1
+(
+cid int,
+name varchar(10),
+fid int
+);
+insert into course1 values(1,'seema',100);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into course1 values(2,'neema',101);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into course1 values(3,'teena',102);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from table1;
+ERROR 1146 (42S02): Table 'knowitdb.table1' doesn't exist
+mysql> select * from course1;;
++------+-------+------+
+| cid  | name  | fid  |
++------+-------+------+
+|    1 | seema |  100 |
+|    2 | neema |  101 |
+|    3 | teena |  102 |
++------+-------+------+
+
+create audit_table
+============================
+create table course_audit
+(
+old_cid int,
+new_cid int,
+old_name varchar(20),
+newname varchar(20),
+changedate date,
+old_fid int,
+new_fid int);
+
+------------------------------------
+create trigger
+------------------------------------------
+create trigger update_course after update on course1
+for each row
+begin
+insert into course_audit values(old_cid,new_cid,curdate(),old_fid,new_fid);
+end &&
+delimiter ;
+
+

@@ -1,0 +1,22 @@
+1)select empno as EmployeeNumber, ename as name, sal as salary from emp;
+2)select empno,ename,sal*12 "annual salary" from emp;
+3)create table emp1
+(eno int,
+ename varchar(15),
+sal int
+);
+insert into emp1 values(1,'jay',3000);
+insert into emp1 values(2,'vijay',7000);
+insert into emp1 values(4,'ajay',5000);
+insert into emp1 values(3,'vinay',1000);
+insert into emp1 values(5,'sujay',2000);
+
+4)update emp1
+set sal=9000 where ename='vinay';
+
+5)Alter table emp1
+add comm int;
+
+
+
+
